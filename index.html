@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michyrite Bites Restaurant</title>
+    <style>
+        /* ============================================
+        CONFIGURATION SECTION - EDIT COLORS HERE
+        ============================================ */
+        :root {
+            /* EDIT THESE COLORS TO MATCH YOUR BRAND */
+            --primary-color: #ff6b35;     /* Main accent color (buttons, highlights) */
+            --primary-dark: #e55a2b;      /* Darker shade for hover effects */
+            --secondary-color: #f7931e;   /* Secondary accent color */
+            --background-dark: #1a1a2e;   /* Dark background color */
+            --background-light: #16213e;  /* Lighter dark background */
+            --text-light: #ffffff;        /* Light text color */
+            --text-muted: #a0a0a0;        /* Muted text color */
+            --card-background: #0f1624;   /* Menu card background */
+        }
+
+        /* ============================================
+        BASE STYLES - GENERALLY NO NEED TO EDIT
+        ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--background-dark) 0%, var(--background-light) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* ============================================
+        HEADER SECTION
+        ============================================ */
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: linear-gradient(180deg, rgba(255,107,53,0.1) 0%, transparent 100%);
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        /* ============================================
+        MENU GRID SECTION
+        ============================================ */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        /* ============================================
+        MENU CARD STYLING
+        ============================================ */
+        .menu-card {
+            background: var(--card-background);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.6s ease forwards;
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Staggered animation for cards */
+        .menu-card:nth-child(1) { animation-delay: 0.1s; }
+        .menu-card:nth-child(2) { animation-delay: 0.2s; }
+        .menu-card:nth-child(3) { animation-delay: 0.3s; }
+        .menu-card:nth-child(4) { animation-delay: 0.4s; }
+        .menu-card:nth-child(5) { animation-delay: 0.5s; }
+        .menu-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(255,107,53,0.3);
+        }
+
+        .item-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .item-description {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .item-price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        /* ============================================
+        ORDER BUTTON STYLING
+        ============================================ */
+        .order-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+        }
+
+        .order-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255,107,53,0.5);
+        }
+
+        .order-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* ============================================
+        FOOTER SECTION
+        ============================================ */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            background: rgba(0,0,0,0.2);
+            color: var(--text-muted);
+        }
+
+        .footer p {
+            margin: 10px 0;
+        }
+
+        /* ============================================
+        ANIMATIONS
+        ============================================ */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================
+        RESPONSIVE DESIGN
+        ============================================ */
+        @media (max-width: 768px) {
+            .logo { font-size: 2rem; }
+            .tagline { font-size: 1rem; }
+            .menu-grid { grid-template-columns: 1fr; gap: 20px; }
+            .item-name { font-size: 1.5rem; }
+            .item-price { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================================
+    HEADER SECTION - EDIT YOUR RESTAURANT INFO
+    ============================================ -->
+    <header class="header">
+        <!-- EDIT: Change restaurant name below -->
+        <h1 class="logo">🍽️ Michyrite Bites</h1>
+        <!-- EDIT: Change tagline below -->
+        <p class="tagline">Authentic Flavors, Delivered to Your Door</p>
+    </header>
+
+    <div class="container">
+        <!-- ============================================
+        MENU ITEMS SECTION - ADD/EDIT YOUR MENU HERE
+        ============================================ -->
+        <div class="menu-grid" id="menuGrid">
+            <!-- TO ADD MORE ITEMS: Copy one complete menu-card div and paste it below
+                 TO EDIT ITEMS: Change the text in itemName, itemDescription, and itemPrice
+                 TO CHANGE TELEGRAM BOT: Update the href link in the order button -->
+
+            <!-- MENU ITEM 1 -->
+            <div class="menu-card">
+                <!-- EDIT: Item name -->
+                <h2 class="item-name">Classic Burger</h2>
+                <!-- EDIT: Item description -->
+                <p class="item-description">
+                    Juicy beef patty with fresh lettuce, tomatoes, pickles, and our special sauce on a toasted brioche bun.
+                </p>
+                <div class="item-footer">
+                    <!-- EDIT: Item price -->
+                    <span class="item-price">N12.99</span>
+                    <!-- EDIT: Replace 'ritarest2botE' with your actual Telegram bot username -->
+                    <a href="https://t.me/ritarest2bot?start=item_burger" class="order-btn" target="_blank">
+                        Order Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- MENU ITEM 2 -->
+            <div class="menu-card">
+                <h2 class="item-name">Margherita Pizza</h2>
+                <p class="item-description">
+                    Traditional Italian pizza with fresh mozzarella, ripe tomatoes, basil, and extra virgin olive oil.
+                </p>
+                <div class="item-footer">
+                    <span class="item-price">N15.99</span>
+                    <!-- EDIT: Replace 'ritarest2bot' with your actual Telegram bot username -->
+                    <a href="https://t.me/ritarest2bot?start=item_pizza" class="order-btn" target="_blank">
+                        Order Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- MENU ITEM 3 -->
+            <div class="menu-card">
+                <h2 class="item-name">Caesar Salad</h2>
+                <p class="item-description">
+                    Crisp romaine lettuce, parmesan cheese, croutons, and creamy Caesar dressing with grilled chicken.
+                </p>
+                <div class="item-footer">
+                    <span class="item-price">N9.99</span>
+                    <!-- EDIT: Replace 'ritarest2bot' with your actual Telegram bot username -->
+                    <a href="https://t.me/ritarest2bot?start=item_salad" class="order-btn" target="_blank">
+                        Order Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- MENU ITEM 4 -->
+            <div class="menu-card">
+                <h2 class="item-name">Grilled Salmon</h2>
+                <p class="item-description">
+                    Fresh Atlantic salmon grilled to perfection, served with roasted vegetables and lemon butter sauce.
+                </p>
+                <div class="item-footer">
+                    <span class="item-price">N22.99</span>
+                    <!-- EDIT: Replace 'ritarest2bot' with your actual Telegram bot username -->
+                    <a href="https://t.me/ritarest2bot?start=item_salmon" class="order-btn" target="_blank">
+                        Order Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- MENU ITEM 5 -->
+            <div class="menu-card">
+                <h2 class="item-name">Chicken Tacos</h2>
+                <p class="item-description">
+                    Three soft tacos with seasoned chicken, fresh salsa, guacamole, and sour cream.
+                </p>
+                <div class="item-footer">
+                    <span class="item-price">N11.99</span>
+                    <!-- EDIT: Replace 'ritarest2bot' with your actual Telegram bot username -->
+                    <a href="https://t.me/ritarest2bot?start=item_tacos" class="order-btn" target="_blank">
+                        Order Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- MENU ITEM 6 -->
+            <div class="menu-card">
+                <h2 class="item-name">Chocolate Lava Cake</h2>
+                <p class="item-description">
+                    Warm chocolate cake with a molten center, served with vanilla ice cream and fresh berries.
+                </p>
+                <div class="item-footer">
+                    <span class="item-price">N7.99</span>
+                    <!-- EDIT: Replace 'ritarest2bot' with your actual Telegram bot username -->
+                    <a href="https://t.me/ritarest2bot?start=item_dessert" class="order-btn" target="_blank">
+                        Order Now
+                    </a>
+                </div>
+            </div>
+
+            <!-- TO ADD MORE ITEMS: Copy any menu-card div above and paste here. Then edit the name, description, price, and Telegram link. -->
+        </div>
+    </div>
+
+    <!-- ============================================
+    FOOTER SECTION - EDIT CONTACT INFO
+    ============================================ -->
+    <footer class="footer">
+        <!-- EDIT: Add your restaurant's contact information -->
+        <p><strong>Contact Us:</strong> contact@deliciousbites.com | +2348033867642</p>
+        <p>4 Connal Road, Yaba, Lagos</p>
+        <p>&copy; 2025 Michyrite Bites Restaurant. All rights reserved.</p>
+    </footer>
+</body>
+</html>
